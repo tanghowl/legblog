@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% from 'bootstrap/pagination.html' import render_pagination %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h5 class="display-4">{{ admin.blog_title|default('Blog Title') }}</h5>
+        <h4 class="text-muted">&nbsp;{{ admin.blog_sub_title|default('Blog Sh4title') }}</h4>
+    </div>
+    <div class="row">
+        <div class="col-sm-8">
+            {% include 'blog/_posts.html' %}
+            {% if posts %}
+                <div class="page-footer">{{ render_pagination(pagination) }}</div>
+            {% endif %}
+        </div>
+        <div class="col-sm-4 sidebar">
+            {% include 'blog/_sidebar.html' %}
+        </div>
+    </div>
+{% endblock %}
