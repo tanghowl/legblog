@@ -1,7 +1,6 @@
 import os
 
 basedir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
-DABASE = 'mysql+pymysql://tanghao:tanghao@127.0.0.1:3306/tblog'
 sqluser = os.getenv('SQLUSER')
 possword = os.getenv('SQLPW')
 database = os.getenv('DATABASE')
@@ -39,17 +38,17 @@ class BaseConfig(object):
 class DevelopmentConfig(BaseConfig):
     TESTING = True
     WTF_CSRF_ENABLED = False
-    SQLALCHEMY_DATABASE_URI = f'mysql+pymysql://{sqluser}:{possword}@127.0.0.1:3306/{database}'
+    SQLALCHEMY_DATABASE_URI = f'mysql+mysqlconnector://{sqluser}:{possword}@127.0.0.1:3306/{database}'
 
 
 class TestingConfig(BaseConfig):
     TESTING = True
     WTF_CSRF_ENABLED = False
-    SQLALCHEMY_DATABASE_URI = f'mysql+pymysql://{sqluser}:{possword}@127.0.0.1:3306/{database}'
+    SQLALCHEMY_DATABASE_URI = f'mysql+mysqlconnector://{sqluser}:{possword}@127.0.0.1:3306/{database}'
 
 
 class ProductionConfig(BaseConfig):
-    SQLALCHEMY_DATABASE_URI = f'mysql+pymysql://{sqluser}:{possword}@127.0.0.1:3306/{database}'
+    SQLALCHEMY_DATABASE_URI = f'mysql+mysqlconnector://{sqluser}:{possword}@127.0.0.1:3306/{database}'
 
 
 config = {
