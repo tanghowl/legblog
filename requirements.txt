@@ -10,3 +10,5 @@ Flask-WTF==0.14.3
 Faker==4.14.0
 PyMySQL==0.10.1
 Bootstrap-Flask==1.5
+python-dotenv==0.15.0
+mysql-connector-python==8.0.22
