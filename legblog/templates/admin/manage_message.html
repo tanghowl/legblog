@@ -17,6 +17,7 @@
         <th>名称</th>
         <th>联系方式</th>
         <th>内容</th>
+        <th>操作</th>
     </tr>
     </thead>
     {% for message in messages %}
@@ -24,6 +25,7 @@
         <td>{{ loop.index }}</td>
         <td>{{ message.name }}</td>
         <td>{{ message.contact }}</td>
+        <td>{{ message.body }}</td>
         <td>
             <form class="inline" method="post" action="{{ url_for('.delete_message', message_id=message.id) }}">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
