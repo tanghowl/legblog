@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% from 'bootstrap/form.html' import render_form %}
+
+{% block title %}Manage Message{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>留言
+        <small class="text-muted">{{ messages|length }}</small>
+    </h1>
+</div>
+{% if links %}
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>No.</th>
+        <th>名称</th>
+        <th>联系方式</th>
+        <th>内容</th>
+    </tr>
+    </thead>
+    {% for message in messages %}
+    <tr>
+        <td>{{ loop.index }}</td>
+        <td>{{ message.name }}</td>
+        <td>{{ message.contact }}</td>
+        <td>
+            <form class="inline" method="post" action="{{ url_for('.delete_message', message_id=message.id) }}">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                <button type="submit" class="btn btn-danger btn-sm"
+                        onclick="return confirm('你确定要删除?');">删除
+                </button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<div class="tip"><h5>没有留言</h5></div>
+{% endif %}
+{% endblock %}

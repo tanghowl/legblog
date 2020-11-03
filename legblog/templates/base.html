@@ -25,7 +25,9 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarColor01">
             <ul class="navbar-nav mr-auto">
-                {{ render_nav_item('blog.index', '主页') }}
+                {{ render_nav_item('blog.index', '文章') }}
+                {{ render_nav_item('blog.message_board', '留言板') }}
+                {{ render_nav_item('blog.about', '关于') }}
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 {% if current_user.is_authenticated %}
@@ -46,9 +48,9 @@
                        aria-haspopup="true"
                        aria-expanded="false">
                         管理 <span class="caret"></span>
-                        {% if unread_comments %}
-                        <span class="badge badge-success">new</span>
-                        {% endif %}
+                        <!--                        {% if unread_comments %}-->
+                        <!--                        <span class="badge badge-success">new</span>-->
+                        <!--                        {% endif %}-->
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="{{ url_for('admin.manage_post') }}">文章</a>
@@ -60,13 +62,12 @@
                             {% endif %}
                         </a>
                         <a class="dropdown-item" href="{{ url_for('admin.manage_link') }}">链接</a>
+                        <a class="dropdown-item" href="{{ url_for('admin.manage_message') }}">留言</a>
                     </div>
                 </li>
                 {{ render_nav_item('admin.settings', '设置') }}
-                {{ render_nav_item('blog.about', '关于') }}
                 {{ render_nav_item('auth.logout', '退出') }}
                 {% else %}
-                {{ render_nav_item('blog.about', '关于') }}
                 {{ render_nav_item('auth.login', '登陆') }}
                 {% endif %}
             </ul>

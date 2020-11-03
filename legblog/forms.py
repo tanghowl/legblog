@@ -59,3 +59,10 @@ class SettingForm(FlaskForm):
     blog_sub_title = StringField('副 标 题', validators=[DataRequired(), Length(1, 100)])
     about = CKEditorField('简 介', validators=[DataRequired()])
     submit = SubmitField('提 交')
+
+
+class MessageBoardForm(FlaskForm):
+    name = StringField('昵 称', validators=[DataRequired(), Length(1, 200)])
+    contact = StringField('联 系 方 式', validators=[DataRequired(), Length(1, 200)])
+    body = TextAreaField('留 言', validators=[DataRequired()])
+    submit = SubmitField()
