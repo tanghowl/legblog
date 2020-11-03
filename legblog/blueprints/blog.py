@@ -23,6 +23,11 @@ def about():
     return render_template('blog/about.html')
 
 
+@blog_bp.route('/todoism')
+def todoism():
+    return render_template('blog/todoism.html')
+
+
 @blog_bp.route('/category/<int:category_id>')
 def show_category(category_id):
     category = Category.query.get_or_404(category_id)
