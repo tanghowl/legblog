@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, current_app, url_for, flash, redirect, make_response  # , abort
 from flask_login import current_user
-from legblog.models import Post, Category, Comment
-from legblog.forms import AdminCommentForm, CommentForm
+from legblog.models import Post, Category, Comment, MessageBoard
+from legblog.forms import AdminCommentForm, CommentForm, MessageBoardForm
 # from legblog.emails import send_new_comment_email, send_new_reply_email
 from legblog.extensions import db
 from legblog.utils import redirect_back
@@ -99,3 +99,23 @@ def change_theme(theme_name):
     response = make_response(redirect_back())
     response.set_cookie('theme', theme_name, max_age=30 * 24 * 60 * 60)
     return response
+
+
+@blog_bp.route('/message-board', methods=['GET', 'POST'])
+def message_board():
+    page = request.args.get('page', 1, type=int)
+    per_page = current_app.config['LEGBLOG_MESSAGE_PER_PAGE']
+    pagination = MessageBoard.query.order_by(MessageBoard.timestamp.desc()).paginate(page, per_page=per_page)
+    messagepage = pagination.items
+
+    form = MessageBoardForm()
+    if form.validate_on_submit():
+        name = form.name.data
+        body = form.body.data
+        contact = form.contact.data
+        message = MessageBoard(body=body, name=name, contact=contact)
+        db.session.add(message)
+        db.session.commit()
+        flash('您的留言已经被收录', 'info')
+        return redirect(url_for('.message_board'))
+    return render_template('blog/message_board.html', form=form, messages=messagepage, pagination=pagination)

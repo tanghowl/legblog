@@ -7,7 +7,7 @@ from legblog.blueprints.blog import blog_bp
 from legblog.blueprints.admin import admin_bp
 from legblog.blueprints.auth import auth_bp
 from legblog.extensions import bootstrap, db, moment, ckeditor, mail, login_manager, csrf
-from legblog.models import Admin, Post, Category, Comment, Link
+from legblog.models import Admin, Post, Category, Comment, Link, MessageBoard
 from legblog.fakes import fake_admin, fake_categories, fake_posts, fake_comments
 from flask_wtf.csrf import CSRFError
 
@@ -53,6 +53,7 @@ def register_template_context(app):
         admin = Admin.query.first()
         categories = Category.query.order_by(Category.name).all()
         links = Link.query.order_by(Link.name).all()
+        messages = MessageBoard.query.order_by(MessageBoard.timestamp.desc()).all()
         if current_user.is_authenticated:
             unread_comments = Comment.query.filter_by(reviewed=False).count()
         else:
@@ -60,7 +61,8 @@ def register_template_context(app):
         return dict(admin=admin,
                     categories=categories,
                     unread_comments=unread_comments,
-                    links=links)
+                    links=links,
+                    messages=messages)
 
 
 def register_errors(app):
@@ -91,8 +93,8 @@ def register_commands(app):
             click.echo('Drop tables.')
         db.create_all()
         click.echo('Generating the administrator...')
-        fake_admin()
-        click.echo('Initialized database.')
+        # fake_admin()
+        # click.echo('Initialized database.')
 
 
     @app.cli.command()
@@ -130,12 +132,12 @@ def register_commands(app):
         click.echo('Done.')
 
     @app.cli.command()
-    @click.option('--category', default=2, help='Quantity of categories, default is 10.')
-    @click.option('--post', default=5, help='Quantity of posts, default is 50.')
-    @click.option('--comment', default=10, help='Quantity of comments, default is 500.')
+    @click.option('--category', default=20, help='Quantity of categories, default is 10.')
+    @click.option('--post', default=50, help='Quantity of posts, default is 50.')
+    @click.option('--comment', default=100, help='Quantity of comments, default is 500.')
     def forge(category, post, comment):
         """Generate fake data."""
-        db.drop_all()
+        # db.drop_all()
         db.create_all()
 
         click.echo('Generating the administrator...')

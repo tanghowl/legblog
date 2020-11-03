@@ -26,6 +26,7 @@ class BaseConfig(object):
 
     LEGBLOG_EMAIL = os.getenv('LEGBLOG_EMAIL', 'tanghowl@163.com')
     LEGBLOG_POST_PER_PAGE = 10
+    LEGBLOG_MESSAGE_PER_PAGE = 10
     LEGBLOG_MANAGE_POST_PER_PAGE = 15
     LEGBLOG_COMMENT_PER_PAGE = 15
     LEGBLOG_THEMES = {'black_swan': 'Black Swan', 'perfect_blue': 'Perfect Blue'}

@@ -1,9 +1,10 @@
 from flask import Blueprint, request, current_app, render_template, flash, redirect, url_for
 from flask_login import login_required, current_user
-from legblog.models import Post, Category, Comment, Link
+from legblog.models import Post, Category, Comment, Link, MessageBoard
 from legblog.forms import PostForm, CategoryForm, LinkForm, SettingForm
 from legblog.extensions import db
 from legblog.utils import redirect_back
+from datetime import datetime
 
 admin_bp = Blueprint('admin', __name__)
 
@@ -62,6 +63,7 @@ def edit_post(post_id):
         post.title = form.title.data
         post.body = form.body.data
         post.category = Category.query.get(form.category.data)
+        post.timestamp = datetime.utcnow()
         db.session.commit()
         flash('文章更新成功.', 'success')
         return redirect(url_for('blog.show_post', post_id=post.id))
@@ -189,6 +191,22 @@ def delete_comment(comment_id):
     db.session.delete(comment)
     db.session.commit()
     flash('评论已被删除.', 'success')
+    return redirect_back()
+
+
+@admin_bp.route('/message/manage')
+@login_required
+def manage_message():
+    return render_template('admin/manage_message.html')
+
+
+@admin_bp.route('/message/<int:message_id>/delete', methods=['POST'])
+@login_required
+def delete_message(message_id):
+    comment = MessageBoard.query.get_or_404(message_id)
+    db.session.delete(comment)
+    db.session.commit()
+    flash('留言已被删除.', 'success')
     return redirect_back()
 
 
