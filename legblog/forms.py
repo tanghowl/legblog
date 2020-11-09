@@ -64,5 +64,5 @@ class SettingForm(FlaskForm):
 class MessageBoardForm(FlaskForm):
     name = StringField('昵 称', validators=[DataRequired(), Length(1, 200)])
     contact = StringField('联 系 方 式', validators=[DataRequired(), Length(1, 200)])
-    body = TextAreaField('留 言', validators=[DataRequired()])
+    body = TextAreaField('留 言 区', validators=[DataRequired()])
     submit = SubmitField()

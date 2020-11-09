@@ -38,7 +38,7 @@ class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(80))
     body = db.Column(db.Text)
-    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+    timestamp = db.Column(db.DateTime, default=datetime.now)
     can_comment = db.Column(db.Boolean, default=True)
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
     category = db.relationship('Category', back_populates='posts')
@@ -53,7 +53,7 @@ class Comment(db.Model):
     body = db.Column(db.Text)
     from_admin = db.Column(db.Boolean, default=False)
     reviewed = db.Column(db.Boolean, default=False)
-    timestamp = db.Column(db.DateTime, default=datetime.utcnow, index=True)
+    timestamp = db.Column(db.DateTime, default=datetime.now, index=True)
     post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
     post = db.relationship('Post', back_populates='comments')
     replied_id = db.Column(db.Integer, db.ForeignKey('comment.id'))
@@ -72,4 +72,12 @@ class MessageBoard(db.Model):
     name = db.Column(db.String(200))
     contact = db.Column(db.String(200))
     body = db.Column(db.String(2000))
-    timestamp = db.Column(db.DateTime, default=datetime.utcnow, index=True)
+    timestamp = db.Column(db.DateTime, default=datetime.now, index=True)
+
+
+class Item(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    body = db.Column(db.Text)
+    done = db.Column(db.Boolean, default=False)
+    timestamp = db.Column(db.DateTime, index=True)
+    update_time = db.Column(db.String(30))

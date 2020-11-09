@@ -8,7 +8,7 @@
     <title>{% block title %}{% endblock title %} - {{ admin.blog_title|default('Blog Title') }}</title>
     <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <link rel="stylesheet"
-          href="{{ url_for('static', filename='css/%s.min.css' % request.cookies.get('theme', 'black_swan')) }}"
+          href="{{ url_for('static', filename='css/%s.min.css' % request.cookies.get('theme', 'perfect_blue')) }}"
           type="text/css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css">
     {% endblock head %}
@@ -17,7 +17,7 @@
 {% block nav %}
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container">
-        <!--        <a class="navbar-brand" href="{{ url_for('blog.index') }}">{{ admin.blog_title }}</a>-->
+        <!--                <a class="navbar-brand" href="{{ url_for('blog.index') }}">{{ admin.blog_title }}</a>-->
         <a class="navbar-brand" href="{{ url_for('blog.index') }}">腿哥的博客</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01"
                 aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
@@ -26,12 +26,12 @@
         <div class="collapse navbar-collapse" id="navbarColor01">
             <ul class="navbar-nav mr-auto">
                 {{ render_nav_item('blog.index', '文章') }}
-                {{ render_nav_item('blog.todoism', '待办') }}
                 {{ render_nav_item('blog.message_board', '留言板') }}
                 {{ render_nav_item('blog.about', '关于') }}
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 {% if current_user.is_authenticated %}
+                {{ render_nav_item('todo.index', '待办') }}
                 <li class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
                        aria-haspopup="true"

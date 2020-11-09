@@ -6,8 +6,9 @@ from legblog.settings import config
 from legblog.blueprints.blog import blog_bp
 from legblog.blueprints.admin import admin_bp
 from legblog.blueprints.auth import auth_bp
+from legblog.blueprints.todo import todo_bp
 from legblog.extensions import bootstrap, db, moment, ckeditor, mail, login_manager, csrf
-from legblog.models import Admin, Post, Category, Comment, Link, MessageBoard
+from legblog.models import Admin, Post, Category, Comment, Link, MessageBoard, Item
 from legblog.fakes import fake_admin, fake_categories, fake_posts, fake_comments
 from flask_wtf.csrf import CSRFError
 
@@ -45,6 +46,7 @@ def register_blueprints(app):
     app.register_blueprint(blog_bp)
     app.register_blueprint(admin_bp, url_prefix='/admin')
     app.register_blueprint(auth_bp, url_prefix='/auth')
+    app.register_blueprint(todo_bp, url_prefix='/todo')
 
 
 def register_template_context(app):
@@ -54,6 +56,7 @@ def register_template_context(app):
         categories = Category.query.order_by(Category.name).all()
         links = Link.query.order_by(Link.name).all()
         messages = MessageBoard.query.order_by(MessageBoard.timestamp.desc()).all()
+        active_items = Item.query.filter_by(done=False).count()
         if current_user.is_authenticated:
             unread_comments = Comment.query.filter_by(reviewed=False).count()
         else:
@@ -62,7 +65,8 @@ def register_template_context(app):
                     categories=categories,
                     unread_comments=unread_comments,
                     links=links,
-                    messages=messages)
+                    messages=messages,
+                    active_items=active_items)
 
 
 def register_errors(app):
@@ -95,7 +99,6 @@ def register_commands(app):
         click.echo('Generating the administrator...')
         # fake_admin()
         # click.echo('Initialized database.')
-
 
     @app.cli.command()
     @click.option('--username', prompt=True, help='The username used to login.')
