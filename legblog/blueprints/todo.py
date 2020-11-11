@@ -15,7 +15,7 @@ def index():
 @todo_bp.route('/todoism')
 @login_required
 def todoism():
-    items = Item.query
+    items = Item.query.order_by(Item.timestamp.desc())
     all_count = Item.query.count()
     active_count = Item.query.filter_by(done=False).count()
     completed_count = Item.query.filter_by(done=True).count()
