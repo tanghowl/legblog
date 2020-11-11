@@ -9,7 +9,7 @@ class LoginForm(FlaskForm):
     username = StringField('账 户：', validators=[DataRequired(), Length(1, 20)])
     password = PasswordField('密 码：', validators=[DataRequired(), Length(8, 128)])
     remember = BooleanField('记住我')
-    submit = SubmitField('登 陆')
+    submit = SubmitField('登 录')
 
 
 class PostForm(FlaskForm):
@@ -65,4 +65,4 @@ class MessageBoardForm(FlaskForm):
     name = StringField('昵 称', validators=[DataRequired(), Length(1, 200)])
     contact = StringField('联 系 方 式', validators=[DataRequired(), Length(1, 200)])
     body = TextAreaField('留 言 区', validators=[DataRequired()])
-    submit = SubmitField()
+    submit = SubmitField('提 交')
