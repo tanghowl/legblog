@@ -3,6 +3,7 @@ from flask_login import current_user
 from legblog.models import Post, Category, Comment, MessageBoard
 from legblog.forms import AdminCommentForm, CommentForm, MessageBoardForm
 # from legblog.emails import send_new_comment_email, send_new_reply_email
+from legblog.utils import get_current_theme
 from legblog.extensions import db
 from legblog.utils import redirect_back
 
@@ -11,6 +12,9 @@ blog_bp = Blueprint('blog', __name__)
 
 @blog_bp.route('/')
 def index():
+    theme = get_current_theme()
+    # response = make_response(redirect_back())
+    # response.set_cookie('theme', theme)
     page = request.args.get('page', 1, type=int)
     per_page = current_app.config['LEGBLOG_POST_PER_PAGE']
     pagination = Post.query.order_by(Post.timestamp.desc()).paginate(page, per_page=per_page)
@@ -20,7 +24,9 @@ def index():
 
 @blog_bp.route('/about')
 def about():
-    return render_template('blog/about.html')
+    wechat_payment = '/Users/23mofang/Desktop/WechatIMG31.jpg'
+    zhifubao_payment = '/Users/23mofang/Desktop/WechatIMG32.jpeg'
+    return render_template('blog/about.html', wechat_payment=wechat_payment, zhifubao_payment=zhifubao_payment)
 
 
 @blog_bp.route('/category/<int:category_id>')

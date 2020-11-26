@@ -8,7 +8,7 @@
     <title>{% block title %}{% endblock title %} - {{ admin.blog_title|default('Blog Title') }}</title>
     <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <link rel="stylesheet"
-          href="{{ url_for('static', filename='css/%s.min.css' % request.cookies.get('theme', 'perfect_blue')) }}"
+          href="{{ url_for('static', filename='css/%s.min.css' % request.cookies.get('theme', 'black_swan')) }}"
           type="text/css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css">
     {% endblock head %}
@@ -55,6 +55,11 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="{{ url_for('admin.manage_post') }}">文章</a>
+                        <a class="dropdown-item" href="{{ url_for('admin.manage_draft') }}">
+                            草稿箱
+                            <span class="badge badge-success">0</span>
+                        </a>
+
                         <a class="dropdown-item" href="{{ url_for('admin.manage_category') }}">标签</a>
                         <a class="dropdown-item" href="{{ url_for('admin.manage_comment') }}">
                             评论
@@ -88,9 +93,10 @@
     {% block footer %}
     <footer>
         <p class="float-left">
-            <small> &copy; 2020 <a href="www.baidu.com" title="Written by Hao Tang">Hao Tang</a>
-                - <a href="https://github.com/tanghowl" title="Fork me on GitHup">GitHup</a>
+            <small> CopyRight &copy; 2020 <a href="www.baidu.com" title="Written by Hao Tang">Hao Tang</a>
+                - <a href="https://github.com/tanghowl" title="Fork me on GitHub">GitHub</a><br>
                 <!--                - <a href="http://helloflask.com" title="A HelloFlask project">HelloFlask</a>-->
+                <a href="https://beian.miit.gov.cn/" title="蜀ICP备2020033897号-1">蜀ICP备2020033897号-1</a>
             </small>
         </p>
         <!--        <p class="float-right">-->
