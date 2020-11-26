@@ -1,6 +1,6 @@
 from flask import Blueprint, request, current_app, render_template, flash, redirect, url_for
 from flask_login import login_required, current_user
-from legblog.models import Post, Category, Comment, Link, MessageBoard
+from legblog.models import Post, Category, Comment, Link, MessageBoard, Draft
 from legblog.forms import PostForm, CategoryForm, LinkForm, SettingForm
 from legblog.extensions import db
 from legblog.utils import redirect_back
@@ -38,6 +38,12 @@ def manage_post():
     return render_template('admin/manage_post.html', page=page, pagination=pagination, posts=posts)
 
 
+@admin_bp.route('/draft/manage')
+@login_required
+def manage_draft():
+    return render_template('admin/manage_draft.html')
+
+
 @admin_bp.route('/post/new', methods=['GET', 'POST'])
 @login_required
 def new_post():
@@ -71,6 +77,20 @@ def edit_post(post_id):
     form.body.data = post.body
     form.category.data = post.category_id
     return render_template('admin/edit_post.html', form=form)
+
+
+@admin_bp.route('/draft/<int:draft_id>/edit', methods=['GET', 'POST'])
+@login_required
+def edit_draft(draft_id):
+    form = PostForm()
+    post = Draft.query.get_or_404(draft_id)
+    ...
+
+
+@admin_bp.route('/draft/<int:draft_id>/delete', methods=['POST'])
+@login_required
+def delete_draft(draft_id):
+    ...
 
 
 @admin_bp.route('/post/<int:post_id>/delete', methods=['POST'])

@@ -45,6 +45,13 @@ class Post(db.Model):
     comments = db.relationship('Comment', back_populates='post', cascade='all')
 
 
+class Draft(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(80))
+    body = db.Column(db.Text)
+    timestamp = db.Column(db.DateTime, default=datetime.now)
+
+
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     author = db.Column(db.String(30))
